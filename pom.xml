@@ -66,4 +66,11 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<scm>
+		<connection>scm:git:git@github.com:uoa-group-applications/lmz-services.git</connection>
+		<developerConnection>scm:git:git@github.com:uoa-group-applications/lmz-services.git</developerConnection>
+		<url>git@github.com:uoa-group-applications/lmz-services.git</url>
+		<tag>HEAD</tag>
+	</scm>
 </project>
