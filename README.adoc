@@ -1,0 +1,9 @@
+= lmz-services
+
+This artifact holds common services used by Grayles applications. At the moment it holds essentially three Spring services:
+
++ *AngularTemplates* - this provides a mechanism to get all of the .html files under /angular that exist in all WAR underlays in your classpath at Dev time or in your main artifact at production time.
++ *I18ClientMessageMap* - this provides a mechanism to get all of the properties files across all artifacts in /i18/messages/client_*.properties - it is recommended each one gets a different name if they are used in war underlays otherwise
+  they will overwrite each other
++ *I18ServerMessageMap* - as I18ClientMessageMap above but for /i18/messages/server_*.properties files
+
