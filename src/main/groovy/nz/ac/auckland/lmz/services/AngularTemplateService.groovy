@@ -2,6 +2,7 @@ package nz.ac.auckland.lmz.services
 
 import groovy.transform.CompileStatic
 import nz.ac.auckland.common.stereotypes.UniversityComponent
+import nz.ac.auckland.lmz.flags.Flags
 import nz.ac.auckland.util.JacksonHelper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -26,7 +27,7 @@ class AngularTemplateService implements AngularTemplates {
 
   @PostConstruct
   public void init() {
-    inDevMode = System.getProperty("webapp.devmode") != null
+    inDevMode = Flags.DEVMODE.on()
   }
 
   protected void collectResources(Set<String> paths, List<String> collected) {

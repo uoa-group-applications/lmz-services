@@ -3,6 +3,7 @@ package nz.ac.auckland.lmz.services
 import com.bluetrainsoftware.classpathscanner.ClasspathScanner
 import com.bluetrainsoftware.classpathscanner.ResourceScanListener
 import groovy.transform.CompileStatic
+import nz.ac.auckland.lmz.flags.Flags
 import nz.ac.auckland.util.JacksonHelper
 
 /**
@@ -13,18 +14,18 @@ abstract class I18nMessageMapService implements I18nMessageMap {
   /**
    * Message map
    */
-  final private Map<String, String> s_messageMap = [:]
+  protected Map<String, String> s_messageMap = [:]
 	private boolean inDevMode
 
 	public I18nMessageMapService() {
 		String prefix = "i18n/messages/" + getResourceMatchingPattern();
 		List<ResourceScanListener.ScanResource> resources = new ArrayList<>();
 
-		inDevMode = System.getProperty("webapp.devmode") != null
-
-		Map<String, String> messageMap = s_messageMap
+		inDevMode = Flags.DEVMODE.on()
 
 		ClasspathScanner.getInstance().registerResourceScanner(new ResourceScanListener() {
+			Map<String, String> messageMap = [:]
+
 			@Override
 			List<ResourceScanListener.ScanResource> resource(List<ResourceScanListener.ScanResource> scanResources) throws Exception {
 				resources.clear()
@@ -54,10 +55,17 @@ abstract class I18nMessageMapService implements I18nMessageMap {
 
 				if (urlString.contains("jdk") || urlString.contains("jre") || urlString.contains("spring") || urlString.contains("jackson") || urlString.contains("stickycode") || urlString.contains("groovy-all")) {
 					return ResourceScanListener.InterestAction.NONE;
-				} else if (interestingResource.directory) {
-					return ResourceScanListener.InterestAction.REPEAT;
 				} else {
-					return ResourceScanListener.InterestAction.ONCE;
+					return ResourceScanListener.InterestAction.REPEAT;
+				}
+			}
+
+			@Override
+			void scanAction(ResourceScanListener.ScanAction action) {
+				if (action == ResourceScanListener.ScanAction.STARTING) {
+					messageMap = [:]
+				} else if (action == ResourceScanListener.ScanAction.COMPLETE) {
+					s_messageMap = Collections.unmodifiableMap(messageMap)
 				}
 			}
 		})
@@ -65,7 +73,7 @@ abstract class I18nMessageMapService implements I18nMessageMap {
 
   public Map<String, String> getMessagesMap() {
     if (inDevMode) {
-	    ClasspathScanner.getInstance().notify(getClass().getClassLoader());
+	    ClasspathScanner.getInstance().scan(getClass().getClassLoader());
     }
 
     return s_messageMap
