@@ -11,7 +11,7 @@
 
 	<groupId>nz.ac.auckland.lmz</groupId>
 	<artifactId>lmz-services</artifactId>
-	<version>1.1</version>
+	<version>1.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>lmz-services</name>
@@ -78,6 +78,6 @@
 		<connection>scm:git:git@github.com:uoa-group-applications/lmz-services.git</connection>
 		<developerConnection>scm:git:git@github.com:uoa-group-applications/lmz-services.git</developerConnection>
 		<url>git@github.com:uoa-group-applications/lmz-services.git</url>
-		<tag>lmz-services-1.1</tag>
+		<tag>HEAD</tag>
 	</scm>
 </project>
